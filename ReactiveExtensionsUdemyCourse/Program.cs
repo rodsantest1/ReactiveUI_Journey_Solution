@@ -18,45 +18,24 @@ namespace ReactiveExtensionsUdemyCourse
             //Example0000(); //Not runnable,
             // just shows the setup for IObserver and IObservable
 
-            Example1();
+            Example1(); //Introduction to Subject
 
             Console.ReadKey();
         }
 
         private static void Example1()
         {
-            var marketObserver = new MarketObserver1();
-
+            //Subject combines both implementations of IObserver and IOservable
             var market = new Subject<float>();
-            market.Subscribe(marketObserver);
+            market.Subscribe(
+                f => Console.WriteLine($"Price is {f}"),
+                e => Console.WriteLine($"Error was {e.Message}"),
+                () => Console.WriteLine("Sequence is complete"));
+            //market.Subscribe(marketObserver);
 
             market.OnNext(7.24f);
-        }
-
-        public class Market1 : IObservable<float>
-        {
-            public IDisposable Subscribe(IObserver<float> observer)
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-        public class MarketObserver1 : IObserver<float>
-        {
-            public void OnNext(float value)
-            {
-                Console.WriteLine($"Market gave us {value}");
-            }
-
-            public void OnError(Exception error)
-            {
-                Console.WriteLine($"We got an error {error.Message}");
-
-            }
-            public void OnCompleted()
-            {
-                Console.WriteLine($"Sequence is completed");
-            }
+            //market.OnError(new Exception("oops"));
+            market.OnCompleted();
         }
 
         private static void Example0000()
@@ -76,7 +55,7 @@ namespace ReactiveExtensionsUdemyCourse
             {
                 Console.WriteLine($"Market gave us {value}");
             }
-            
+
             public void OnError(Exception error)
             {
                 throw new NotImplementedException();
@@ -101,7 +80,7 @@ namespace ReactiveExtensionsUdemyCourse
             var market = new Market000();
             market.Prices.ListChanged += (sender, args) =>
             {
-                if (args.ListChangedType== ListChangedType.ItemAdded)
+                if (args.ListChangedType == ListChangedType.ItemAdded)
                 {
                     float price = ((BindingList<float>)sender)[args.NewIndex];
                     Console.WriteLine($"Binding list got a price of {price}");
