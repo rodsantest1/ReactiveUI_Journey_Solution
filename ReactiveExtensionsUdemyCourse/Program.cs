@@ -19,7 +19,7 @@ namespace ReactiveExtensionsUdemyCourse
         {
             // Example of INotifyPropertyChanged implementation
             // A bit of plumbing for a single property
-            var market = new Market();
+            var market = new Market0();
 
             market.PropertyChanged += (sender, eventArgs) =>
             {
@@ -35,7 +35,7 @@ namespace ReactiveExtensionsUdemyCourse
         }
     }
 
-    public class Market : INotifyPropertyChanged
+    public class Market0 : INotifyPropertyChanged
     {
         private float volatility;
 
