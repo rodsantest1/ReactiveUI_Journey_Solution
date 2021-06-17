@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncAwaitWithTimCorey", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUIStuff", "ReactiveUIStuff\ReactiveUIStuff.csproj", "{BE379788-90DD-4EEA-A398-5758D1F13C7D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveExtensionsUdemyCourse", "ReactiveExtensionsUdemyCourse\ReactiveExtensionsUdemyCourse.csproj", "{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{BE379788-90DD-4EEA-A398-5758D1F13C7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BE379788-90DD-4EEA-A398-5758D1F13C7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BE379788-90DD-4EEA-A398-5758D1F13C7D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
