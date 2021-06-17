@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -10,9 +11,21 @@ namespace ReactiveExtensionsUdemyCourse
         {
             Console.WriteLine("Hello World!");
 
-            Example0();
+            //Example0();
+            Example00();
 
             Console.ReadKey();
+        }
+
+        private static void Example00()
+        {
+            var market = new Market00();
+            market.PriceAdded += (sender, f) =>
+            {
+                Console.WriteLine($"We got a price of {f}");
+            };
+
+            market.AddPrice(123);
         }
 
         private static void Example0()
@@ -32,6 +45,19 @@ namespace ReactiveExtensionsUdemyCourse
             };
 
             market.Volatility = 3F;
+        }
+    }
+
+    public class Market00
+    {
+        private List<float> prices = new List<float>();
+
+        public event EventHandler<float> PriceAdded;
+
+        public void AddPrice(float price)
+        {
+            prices.Add(price);
+            PriceAdded?.Invoke(this, price);
         }
     }
 
