@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 
 namespace ReactiveExtensionsUdemyCourse
@@ -17,7 +18,45 @@ namespace ReactiveExtensionsUdemyCourse
             //Example0000(); //Not runnable,
             // just shows the setup for IObserver and IObservable
 
+            Example1();
+
             Console.ReadKey();
+        }
+
+        private static void Example1()
+        {
+            var marketObserver = new MarketObserver1();
+
+            var market = new Subject<float>();
+            market.Subscribe(marketObserver);
+
+            market.OnNext(7.24f);
+        }
+
+        public class Market1 : IObservable<float>
+        {
+            public IDisposable Subscribe(IObserver<float> observer)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public class MarketObserver1 : IObserver<float>
+        {
+            public void OnNext(float value)
+            {
+                Console.WriteLine($"Market gave us {value}");
+            }
+
+            public void OnError(Exception error)
+            {
+                Console.WriteLine($"We got an error {error.Message}");
+
+            }
+            public void OnCompleted()
+            {
+                Console.WriteLine($"Sequence is completed");
+            }
         }
 
         private static void Example0000()
@@ -45,7 +84,7 @@ namespace ReactiveExtensionsUdemyCourse
 
             public void OnCompleted()
             {
-                Console.WriteLine($"Market completed");
+                throw new NotImplementedException();
             }
         }
 
