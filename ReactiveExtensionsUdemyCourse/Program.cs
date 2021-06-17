@@ -13,9 +13,48 @@ namespace ReactiveExtensionsUdemyCourse
 
             //Example0();
             //Example00();
-            Example000();
+            //Example000();
+            //Example0000(); //Not runnable,
+            // just shows the setup for IObserver and IObservable
 
             Console.ReadKey();
+        }
+
+        private static void Example0000()
+        {
+            //As we'll see later Rx encapsulates 
+            // manually implementing IObserver and IObservable
+            // OnNext* --> (OnError | OnCompleted)?
+
+            var market = new Market0000();
+
+            market.Subscribe(new MarketObserver0000());
+        }
+
+        public class MarketObserver0000 : IObserver<float>
+        {
+            public void OnNext(float value)
+            {
+                Console.WriteLine($"Market gave us {value}");
+            }
+            
+            public void OnError(Exception error)
+            {
+                throw new NotImplementedException();
+            }
+
+            public void OnCompleted()
+            {
+                Console.WriteLine($"Market completed");
+            }
+        }
+
+        public class Market0000 : IObservable<float>
+        {
+            public IDisposable Subscribe(IObserver<float> observer)
+            {
+                throw new NotImplementedException();
+            }
         }
 
         private static void Example000()
