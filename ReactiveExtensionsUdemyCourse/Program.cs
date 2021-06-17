@@ -12,9 +12,35 @@ namespace ReactiveExtensionsUdemyCourse
             Console.WriteLine("Hello World!");
 
             //Example0();
-            Example00();
+            //Example00();
+            Example000();
 
             Console.ReadKey();
+        }
+
+        private static void Example000()
+        {
+            var market = new Market000();
+            market.Prices.ListChanged += (sender, args) =>
+            {
+                if (args.ListChangedType== ListChangedType.ItemAdded)
+                {
+                    float price = ((BindingList<float>)sender)[args.NewIndex];
+                    Console.WriteLine($"Binding list got a price of {price}");
+                }
+            };
+
+            market.AddPrice(123);
+        }
+
+        public class Market000
+        {
+            public BindingList<float> Prices = new BindingList<float>();
+
+            public void AddPrice(float price)
+            {
+                Prices.Add(price);
+            }
         }
 
         private static void Example00()
@@ -26,6 +52,19 @@ namespace ReactiveExtensionsUdemyCourse
             };
 
             market.AddPrice(123);
+        }
+
+        public class Market00
+        {
+            private List<float> prices = new List<float>();
+
+            public event EventHandler<float> PriceAdded;
+
+            public void AddPrice(float price)
+            {
+                prices.Add(price);
+                PriceAdded?.Invoke(this, price);
+            }
         }
 
         private static void Example0()
@@ -46,45 +85,34 @@ namespace ReactiveExtensionsUdemyCourse
 
             market.Volatility = 3F;
         }
-    }
 
-    public class Market00
-    {
-        private List<float> prices = new List<float>();
-
-        public event EventHandler<float> PriceAdded;
-
-        public void AddPrice(float price)
+        public class Market0 : INotifyPropertyChanged
         {
-            prices.Add(price);
-            PriceAdded?.Invoke(this, price);
-        }
-    }
+            private float volatility;
 
-    public class Market0 : INotifyPropertyChanged
-    {
-        private float volatility;
-
-        public float Volatility
-        {
-            get => volatility;
-            set
+            public float Volatility
             {
-                if (value.Equals(volatility))
+                get => volatility;
+                set
                 {
-                    return;
-                }
+                    if (value.Equals(volatility))
+                    {
+                        return;
+                    }
 
-                volatility = value;
-                OnPropertyChanged();
+                    volatility = value;
+                    OnPropertyChanged();
+                }
+            }
+
+            public event PropertyChangedEventHandler PropertyChanged;
+
+            protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
     }
+
 }
