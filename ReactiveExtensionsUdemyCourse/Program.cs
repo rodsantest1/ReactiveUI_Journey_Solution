@@ -18,9 +18,22 @@ namespace ReactiveExtensionsUdemyCourse
             //Example0000(); //Not runnable,
             // just shows the setup for IObserver and IObservable
 
-            Example1(); //Introduction to Subject
+            //Example1(); //Introduction to Subject
+            Example2();
 
             Console.ReadKey();
+        }
+
+        private static void Example2()
+        {
+            var sensor = new Subject<float>();
+
+            using (sensor.Subscribe(Console.WriteLine))
+            {
+                sensor.OnNext(1);
+            }
+
+            sensor.OnNext(2);
         }
 
         private static void Example1()
