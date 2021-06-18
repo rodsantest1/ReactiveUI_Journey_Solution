@@ -28,9 +28,23 @@ namespace ReactiveExtensionsUdemyCourse
             //Example6();
             //Example7(); //BehaviorSubject
 
-            Example8();
+            //Example8();
+            Example9();
 
             Console.ReadKey();
+        }
+
+        private static void Example9()
+        {
+            var sensor = new AsyncSubject<double>();
+            sensor.Inspect("async");
+
+            sensor.OnNext(1.0);
+            sensor.OnNext(2.0);
+            sensor.OnNext(3.0);
+            sensor.OnCompleted();
+
+            sensor.OnNext(123); //You aren't going to get this.
         }
 
         private static void Example8()
