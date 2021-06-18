@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
+using System.Threading;
 
 namespace ReactiveExtensionsUdemyCourse
 {
@@ -20,9 +21,49 @@ namespace ReactiveExtensionsUdemyCourse
 
             //Example1(); //Introduction to Subject
             //Example2();
-            Example3();
+            //Example3();
+            //Example4();
+            //Example5();
+
+            Example6();
 
             Console.ReadKey();
+        }
+
+        private static void Example6()
+        {
+            var bufferSize = 1;
+            var market = new ReplaySubject<float>(bufferSize);
+
+            market.OnNext(123);
+            market.OnNext(456);
+            market.OnNext(789);
+
+            market.Subscribe(x => Console.WriteLine($"Got the price {x}"));
+        }
+
+        private static void Example5()
+        {
+            var timeWindow = TimeSpan.FromMilliseconds(500);
+            var market = new ReplaySubject<float>(timeWindow);
+
+            market.OnNext(123);
+            Thread.Sleep(200);
+            market.OnNext(456);
+            Thread.Sleep(200);
+            market.OnNext(789);
+            Thread.Sleep(200);
+
+            market.Subscribe(x => Console.WriteLine($"Got the price {x}"));
+        }
+
+        private static void Example4()
+        {
+            var market = new ReplaySubject<float>();
+
+            market.OnNext(123);
+
+            market.Subscribe(x => Console.WriteLine($"Got the price {x}"));
         }
 
         private static void Example3()
