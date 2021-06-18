@@ -22,12 +22,20 @@ namespace ReactiveExtensionsUdemyCourse
             //Example1(); //Introduction to Subject
             //Example2();
             //Example3();
-            //Example4();
+            //Example4(); //ReplaySubject
             //Example5();
+            //Example6();
 
-            Example6();
+            Example7(); //BehaviorSubject
 
             Console.ReadKey();
+        }
+
+        private static void Example7()
+        {
+            var sensorReading = new BehaviorSubject<double>(-1.0);
+
+            sensorReading.Inspect("sensor");
         }
 
         private static void Example6()
