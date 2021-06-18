@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace ReactiveExtensionsUdemyCourse
 {
@@ -25,10 +26,19 @@ namespace ReactiveExtensionsUdemyCourse
             //Example4(); //ReplaySubject
             //Example5();
             //Example6();
+            //Example7(); //BehaviorSubject
 
-            Example7(); //BehaviorSubject
+            Example8();
 
             Console.ReadKey();
+        }
+
+        private static void Example8()
+        {
+            Task<int> t = Task<int>.Factory.StartNew(() => 42);
+            int value = t.Result;
+
+            Console.WriteLine(value);
         }
 
         private static void Example7()
