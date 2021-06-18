@@ -36,6 +36,10 @@ namespace ReactiveExtensionsUdemyCourse
             var sensorReading = new BehaviorSubject<double>(-1.0);
 
             sensorReading.Inspect("sensor");
+
+            sensorReading.OnNext(0.99);
+
+            sensorReading.OnCompleted();
         }
 
         private static void Example6()
