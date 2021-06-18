@@ -19,9 +19,24 @@ namespace ReactiveExtensionsUdemyCourse
             // just shows the setup for IObserver and IObservable
 
             //Example1(); //Introduction to Subject
-            Example2();
+            //Example2();
+            Example3();
 
             Console.ReadKey();
+        }
+
+        private static void Example3()
+        {
+            var market = new Subject<float>();
+            var marketConsumber = new Subject<float>();
+
+            market.Subscribe(marketConsumber);
+
+            marketConsumber.Inspect("market consumer");
+
+            market.OnNext(1, 2, 3, 4);
+
+            market.OnCompleted();
         }
 
         private static void Example2()
