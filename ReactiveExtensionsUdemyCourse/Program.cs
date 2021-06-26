@@ -75,6 +75,8 @@ namespace ReactiveExtensionsUdemyCourse
                 var sub = market.Inspect("market");
 
                 market.Publish(123.4f);
+                sub.Dispose();
+                market.Publish(567.8f);
             }
         }
 
