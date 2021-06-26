@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.ComponentModel;
+using System.Reactive.Disposables;
 using System.Reactive.Subjects;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -29,9 +31,51 @@ namespace ReactiveExtensionsUdemyCourse
             //Example7(); //BehaviorSubject
 
             //Example8();
-            Example9();
+            //Example9();
+            Example10();
+
 
             Console.ReadKey();
+        }
+
+        private static void Example10()
+        {
+            new Market10Observer();
+        }
+
+        public class Market10 : IObservable<float>
+        {
+            private ImmutableHashSet<IObserver<float>> observers =
+                ImmutableHashSet<IObserver<float>>.Empty;
+
+            public IDisposable Subscribe(IObserver<float> observer)
+            {
+                observers = observers.Add(observer);
+
+                return Disposable.Create(() =>
+                {
+                    observers = observers.Remove(observer);
+                });
+            }
+
+            public void Publish(float price)
+            {
+                foreach (var o in observers)
+                {
+                    o.OnNext(price);
+                }
+            }
+        }
+
+        public class Market10Observer
+        {
+            public Market10Observer()
+            {
+                var market = new Market10();
+                var sub = market.Inspect("market");
+
+                market.Publish(123.4f);
+            }
         }
 
         private static void Example9()
