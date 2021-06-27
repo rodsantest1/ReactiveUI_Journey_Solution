@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.ComponentModel;
 using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Reactive.Subjects;
+using System.Reactive.Threading.Tasks;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
+using Timer = System.Timers.Timer;
 
 namespace ReactiveExtensionsUdemyCourse
 {
@@ -32,10 +35,273 @@ namespace ReactiveExtensionsUdemyCourse
 
             //Example8();
             //Example9();
-            Example10();
+            //Example10();
+
+            /* Observable Sequences */
+
+            //Example11();
+            //Example12();
+            //Example13();
+            //Example14();
+            //Example15(); //Observable.Create
+            //Example16();
+            //Example17();
+
+            //Example18(); //Unexpected behavior
+            //Example19(); //Expected behavior
+
+            //Example20(); //Sequence factories
+            //Example21();
+            //Example22();
+            //Example23();
+            //Example24();
+            //Example25();
+            //Example26();
+            Example27();
 
 
             Console.ReadKey();
+        }
+
+        private static void Example27()
+        {
+            var item = new List<int> { 1, 2, 3 };
+            var source = item.ToObservable();
+            source.Inspect("observable");
+        }
+
+        private static void Example26()
+        {
+            var t = Task.Factory.StartNew(() => "Test");
+            var source = t.ToObservable();
+            source.Inspect("task");
+
+            //There is already one in Main
+            //Console.ReadLine();
+        }
+
+        private static void Example25()
+        {
+            var market = new Market25();
+            var priceChanges = Observable.FromEventPattern<float>(
+                h => market.PriceChanged += h,
+                h => market.PriceChanged -= h
+            );
+
+            //Inspect will not work in this case
+            //priceChanges.Inspect("price changes"); 
+            priceChanges.Subscribe(
+                x => Console.WriteLine($"{x.EventArgs}")
+            );
+
+            market.ChangePrice(1);
+            market.ChangePrice(1.1f);
+            market.ChangePrice(1.2f);
+        }
+
+        public class Market25
+        {
+            private float _price;
+
+            //public float Price
+            //{
+            //    get { return _price; }
+            //    set { _price = value; }
+            //}
+
+            public float Price
+            {
+                get => _price;
+                set => _price = value;
+            }
+
+            public void ChangePrice(float price)
+            {
+                Price = price;
+                PriceChanged?.Invoke(this, price);
+            }
+
+            public event EventHandler<float> PriceChanged;
+        }
+
+        private static void Example24()
+        {
+            //The difference between Start and Return is
+            //Return is eager
+            //Start is lazy
+            //
+            var start = Observable.Start(() =>
+            {
+                Console.WriteLine("Starting work...");
+                for (int i = 0; i < 10; i++)
+                {
+                    Thread.Sleep(200);
+                    Console.Write(".");
+                }
+            });
+
+            for (int i = 0; i < 10; i++)
+            {
+                Thread.Sleep(200);
+                Console.Write("-");
+            }
+
+            start.Inspect("start");
+            Console.ReadKey();
+        }
+
+        private static void Example23()
+        {
+            var timer = Observable.Timer(TimeSpan.FromSeconds(2));
+            timer.Inspect("timer");
+            Console.ReadLine();
+        }
+
+        private static void Example22()
+        {
+            var interval = Observable.Interval(TimeSpan.FromMilliseconds(500));
+            using (interval.Inspect("interval"))
+            {
+                Console.ReadKey();
+            }
+        }
+
+        private static void Example21()
+        {
+            var generated = Observable.Generate(
+                1,
+                value => value < 100,
+                value => value * value + 1,
+                value => $"[{value}]" //Like linq Select()
+            );
+
+            generated.Inspect("generated");
+        }
+
+        private static void Example20()
+        {
+            var tenToTwenty = Observable.Range(10, 11);
+            tenToTwenty.Inspect("range");
+        }
+
+        private static void Example19()
+        {
+            var obs = Observable.Create<string>(o =>
+            {
+                var timer = new Timer(1000);
+                timer.Elapsed += (s, e) => o.OnNext($"tick {e.SignalTime}");
+                timer.Elapsed += Timer_Elapsed;
+                timer.Start();
+                return () =>
+                {
+                    timer.Elapsed -= Timer_Elapsed;
+                    timer.Dispose();
+                };
+            });
+
+            var sub = obs.Inspect("timer");
+            Console.ReadLine();
+
+            sub.Dispose();
+            Console.ReadLine();
+        }
+
+        private static void Example18()
+        {
+            var obs = Observable.Create<string>(o =>
+            {
+                var timer = new Timer(1000);
+                timer.Elapsed += (s, e) => o.OnNext($"tick {e.SignalTime}");
+                timer.Elapsed += Timer_Elapsed;
+                timer.Start();
+                return Disposable.Empty;
+            });
+
+            var sub = obs.Inspect("timer");
+            Console.ReadLine();
+
+            sub.Dispose();
+            Console.ReadLine();
+        }
+
+        private static void Timer_Elapsed(object sender, System.Timers.ElapsedEventArgs e)
+        {
+            Console.WriteLine($"tock {e.SignalTime}");
+        }
+
+        private static void Example17()
+        {
+            //var meaningOfLife = Observable.Return<int>(42); //OnNext(42), OnCompleted
+
+            //same as
+
+            var meaningOfLife2 = Return(42);
+            meaningOfLife2.Inspect("meaningOfLife2");
+        }
+
+        public static IObservable<T> Return<T>(T value)
+        {
+            return Observable.Create<T>(x =>
+            {
+                x.OnNext(value);
+                x.OnCompleted();
+                return Disposable.Empty;
+            });
+        }
+
+        private static void Example16()
+        {
+            NonBlocking().Inspect("nonblocking");
+        }
+
+        private static void Example15()
+        {
+            Blocking().Inspect("blocking");
+        }
+
+        private static IObservable<string> NonBlocking()
+        {
+            return Observable.Create<string>(observer =>
+            {
+                observer.OnNext("foo", "bar");
+                observer.OnCompleted();
+                Thread.Sleep(3000);
+                return Disposable.Empty;
+            });
+        }
+
+        private static IObservable<string> Blocking()
+        {
+            var subj = new ReplaySubject<string>();
+            subj.OnNext("foo", "bar");
+            subj.OnCompleted();
+            Thread.Sleep(3000);
+            return subj;
+        }
+
+        private static void Example14()
+        {
+            var obs = Observable.Throw<int>(new Exception("oops"));
+            obs.Inspect("obs");
+        }
+
+        private static void Example13()
+        {
+            //does not produce the completion signal
+            var obs = Observable.Never<int>();
+            obs.Inspect("obs");
+        }
+
+        private static void Example12()
+        {
+            var obs = Observable.Empty<int>();
+            obs.Inspect("obs");
+        }
+
+        private static void Example11()
+        {
+            var obs = Observable.Return(42); //ReplaySubject
+            obs.Inspect("obs");
         }
 
         private static void Example10()
@@ -320,7 +586,5 @@ namespace ReactiveExtensionsUdemyCourse
                 PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
             }
         }
-
     }
-
 }
