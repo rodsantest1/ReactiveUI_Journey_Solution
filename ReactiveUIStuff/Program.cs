@@ -1,4 +1,5 @@
 ﻿using ReactiveUI;
+using Splat;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -12,8 +13,8 @@ namespace ReactiveUIStuff
             //Examples from Commands in ReactiveUI handbook
             Console.WriteLine("Hello World!");
 
-            //Example1();
-            Example2();
+            Example1();
+            //Example2();
 
         }
 
@@ -46,6 +47,23 @@ namespace ReactiveUIStuff
 
             // This outputs: 42
             command.Execute(42).Subscribe();
+        }
+    }
+
+    public class MyClass : IEnableLogger
+    {
+        private void Example1()
+        {
+            // A synchronous command taking a parameter and returning nothing.
+            // The Unit type is often used to denote the successfull completion
+            // of a void-returning method (C#) or a sub procedure (VB).
+            ReactiveCommand<int, Unit> command = ReactiveCommand.Create<int>(
+                integer => Console.WriteLine(integer));
+
+            // This outputs: 42
+            command.Execute(42)
+                .Do(x => this.Log().Debug("Rodney was here"))
+                .Subscribe();
         }
     }
 }
