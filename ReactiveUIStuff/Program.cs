@@ -13,8 +13,8 @@ namespace ReactiveUIStuff
             //Examples from Commands in ReactiveUI handbook
             Console.WriteLine("Hello World!");
 
-            Example1();
-            //Example2();
+            //Example1();
+            Example2();
 
         }
 
@@ -27,7 +27,9 @@ namespace ReactiveUIStuff
 
             // Subscribing to the observable returned by `Execute()` will 
             // tick through the value `42` with a 2-second delay.
-            command.Execute(Unit.Default).Subscribe();
+            command.Execute(Unit.Default)
+                .Do(x => System.Diagnostics.Debug.WriteLine($"Hello World {x}"))
+                .Subscribe();
 
             // We can also subscribe to _all_ values that a command
             // emits by using the `Subscribe()` method on the
@@ -47,23 +49,6 @@ namespace ReactiveUIStuff
 
             // This outputs: 42
             command.Execute(42).Subscribe();
-        }
-    }
-
-    public class MyClass : IEnableLogger
-    {
-        private void Example1()
-        {
-            // A synchronous command taking a parameter and returning nothing.
-            // The Unit type is often used to denote the successfull completion
-            // of a void-returning method (C#) or a sub procedure (VB).
-            ReactiveCommand<int, Unit> command = ReactiveCommand.Create<int>(
-                integer => Console.WriteLine(integer));
-
-            // This outputs: 42
-            command.Execute(42)
-                .Do(x => this.Log().Debug("Rodney was here"))
-                .Subscribe();
         }
     }
 }
