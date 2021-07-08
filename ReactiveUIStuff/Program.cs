@@ -14,8 +14,19 @@ namespace ReactiveUIStuff
             Console.WriteLine("Hello World!");
 
             //Example1();
-            Example2();
+            //Example2();
+            Example3();
+        }
 
+        private static void Example3()
+        {
+            // Creates a command with synchronous execution logic
+            // which is always available for execution.
+            var command = ReactiveCommand.Create(
+                () => Console.WriteLine("A reactive command is invoked!")
+            );
+
+            command.Execute().Subscribe();
         }
 
         private static void Example2()
