@@ -3,6 +3,7 @@ using Splat;
 using System;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Threading.Tasks;
 
 namespace ReactiveUIStuff
 {
@@ -15,7 +16,19 @@ namespace ReactiveUIStuff
 
             //Example1();
             //Example2();
-            Example3();
+            //Example3();
+            Example4();
+        }
+
+        private static void Example4()
+        {
+            // Creates a command with synchronous execution logic
+            // which is always available for execution.
+            var command = ReactiveCommand.CreateFromTask(
+                () => Task.Run(() => Console.WriteLine("A reactive command is invoked!"))
+            );
+
+            command.Execute().Subscribe();
         }
 
         private static void Example3()
