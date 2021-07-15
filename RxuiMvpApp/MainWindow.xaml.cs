@@ -1,6 +1,9 @@
 ﻿using ReactiveUI;
 using System.Reactive.Disposables;
 
+using Esri.ArcGISRuntime.Geometry;
+using Esri.ArcGISRuntime.Mapping;
+
 namespace RxuiMvpApp
 {
     /// <summary>
@@ -11,6 +14,10 @@ namespace RxuiMvpApp
         public MainWindow()
         {
             InitializeComponent();
+
+            MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
+            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, 100000));
+
 
             ViewModel = new MainViewModel();
 
