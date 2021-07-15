@@ -21,6 +21,11 @@ namespace RxuiMvpApp
                     v => v.Input1.Text)
                     .DisposeWith(disposables);
 
+                this.Bind(ViewModel,
+                    vm => vm.ZoomLevel,
+                    v => v.SliderInput1.Value)
+                    .DisposeWith(disposables);
+
                 this.OneWayBind(ViewModel,
                     vm => vm.ZoomLevel,
                     v => v.Label1.Text)

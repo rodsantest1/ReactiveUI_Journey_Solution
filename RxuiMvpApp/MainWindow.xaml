@@ -12,6 +12,7 @@
         <StackPanel>
             <TextBox x:Name="Input1" />
             <TextBlock x:Name="Label1"  />
+            <Slider x:Name="SliderInput1" />
         </StackPanel>
     </Grid>
 </reactiveui:ReactiveWindow>
