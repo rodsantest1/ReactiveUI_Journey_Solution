@@ -12,7 +12,6 @@ namespace RxuiMvpApp
         {
             InitializeComponent();
 
-
             ViewModel = new MainViewModel();
 
             this.WhenActivated(disposables =>
@@ -22,7 +21,7 @@ namespace RxuiMvpApp
                     vm => vm.ZoomLevel,
                     v => v.Input1.Text)
                     .DisposeWith(disposables);
-    
+
                 this.OneWayBind(ViewModel,
                     vm => vm.ZoomLevel,
                     v => v.Label1.Text)
