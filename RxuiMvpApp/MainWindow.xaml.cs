@@ -16,7 +16,6 @@ namespace RxuiMvpApp
 
             this.WhenActivated(disposables =>
             {
-
                 this.Bind(ViewModel,
                     vm => vm.ZoomLevel,
                     v => v.Input1.Text)
