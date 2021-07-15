@@ -5,9 +5,11 @@ VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AsyncAwaitWithTimCorey", "AsyncAwaitWithTimCorey\AsyncAwaitWithTimCorey.csproj", "{424B96D8-2B9C-4CCD-8F47-6019DD673D41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveUIStuff", "ReactiveUIStuff\ReactiveUIStuff.csproj", "{BE379788-90DD-4EEA-A398-5758D1F13C7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveUIStuff", "ReactiveUIStuff\ReactiveUIStuff.csproj", "{BE379788-90DD-4EEA-A398-5758D1F13C7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReactiveExtensionsUdemyCourse", "ReactiveExtensionsUdemyCourse\ReactiveExtensionsUdemyCourse.csproj", "{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReactiveExtensionsUdemyCourse", "ReactiveExtensionsUdemyCourse\ReactiveExtensionsUdemyCourse.csproj", "{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RxuiMvpApp", "RxuiMvpApp\RxuiMvpApp.csproj", "{FF90683C-DD7F-42D6-8CF6-32077FFB6C68}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{62D9DD1A-678B-4C94-A366-1C97B4D4F9A3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF90683C-DD7F-42D6-8CF6-32077FFB6C68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF90683C-DD7F-42D6-8CF6-32077FFB6C68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF90683C-DD7F-42D6-8CF6-32077FFB6C68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF90683C-DD7F-42D6-8CF6-32077FFB6C68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
