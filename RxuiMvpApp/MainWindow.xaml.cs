@@ -16,7 +16,7 @@ namespace RxuiMvpApp
             InitializeComponent();
 
             //Note: The way I wired up zoom buttons is not the ReactiveUI way
-            //I just needed a Proof of Concept for zooming  an  ArcGIS map.
+            //I just needed a Proof of Concept for zooming an ArcGIS map.
             ZoomInButton.Click += (s, e) =>
             {
                 MainMapView.SetViewpointScaleAsync(MainMapView.MapScale / 2);
