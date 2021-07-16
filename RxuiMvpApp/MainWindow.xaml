@@ -16,6 +16,8 @@
     
     <Grid>
         <StackPanel>
+            <Button x:Name="ZoomInButton" Content="Zoom In" />
+            <Button x:Name="ZoomOutButton" Content="Zoom Out" />
             <TextBox x:Name="Input1" />
             <TextBlock x:Name="Label1"  />
             <Slider x:Name="SliderInput1" />
