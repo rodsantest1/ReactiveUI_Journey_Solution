@@ -1,75 +1,56 @@
 ﻿using ReactiveUI;
-using System.Reactive.Disposables;
-
 using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
+using System.Windows;
+using System.Reactive.Linq;
+using System.Windows.Input;
+using System;
+using System.Reactive.Disposables;
+using System.Windows.Controls.Primitives;
 
 namespace RxuiMvpApp
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : ReactiveWindow<MainViewModel>
+    public partial class MainWindow : IViewFor<MainViewModel>
     {
         public MainWindow()
         {
             InitializeComponent();
 
-            ViewModel = new MainViewModel();
-
-            //Note: The way I wired up zoom buttons is not the ReactiveUI way
-            //I just needed a Proof of Concept for zooming an ArcGIS map.
-            ZoomInButton.Click += (s, e) =>
-            {
-                MainMapView.SetViewpointScaleAsync(MainMapView.MapScale / 2);
-                //System.Diagnostics.Debug.WriteLine($"Rodney was here during in {esriMapView.MapScale}");
-            };
-
-            ZoomOutButton.Click += (s, e) =>
-            {
-                MainMapView.SetViewpointScaleAsync(MainMapView.MapScale * 2);
-                //System.Diagnostics.Debug.WriteLine($"Rodney was here during out {esriMapView.MapScale}");
-            };
-
-            /* ArcGIS map init stuff  
-             * 
-             https://developers.arcgis.com/net/  
-             https://developers.arcgis.com/net/maps-2d/tutorials/display-a-map/
-             */
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
             MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, 100000));
-
-            //MainMapView.NavigationCompleted += (s, e) =>
-            //{
-            //    System.Diagnostics.Debug.WriteLine($"Rodney was here during out {MainMapView.MapScale}");
-            //};
-
-            MainMapView.ViewpointChanged += (s, e) =>
-            {
-                System.Diagnostics.Debug.WriteLine($"Rodney was here during wheel event {MainMapView.MapScale}");
-                ViewModel.ZoomLevel = MainMapView.MapScale;
-            };
-
+            SliderInput1.Value = 50;
             /* ReactiveUI stuff */
-
-
+            //ViewModel = new MainViewModel();
             this.WhenActivated(disposables =>
             {
-                this.Bind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.Input1.Text)
+                ZoomInButton.Events().Click
+                    .Do(_ => MainMapView.SetViewpointScaleAsync(MainMapView.MapScale / 2))
+                    .Do(_ =>
+                    {
+                        //This doesn't account for calculation of accurate percentage baed on map max possible scale and is only to show the slider working
+                        SliderInput1.Value /= 2;
+                    })
+                    .Do(_ => SetText())
+                    .Subscribe()
                     .DisposeWith(disposables);
-
-                this.Bind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.SliderInput1.Value)
-                    .DisposeWith(disposables);
-
-                this.OneWayBind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.Label1.Text)
+                ZoomOutButton.Events().Click
+                    .Do(_ => MainMapView.SetViewpointScaleAsync(MainMapView.MapScale * 2))
+                    .Do(_ =>
+                    {
+                        //This doesn't account for calculation of accurate percentage baed on map max possible scale and is only to show the slider working
+                        SliderInput1.Value += (100 - SliderInput1.Value) / 2;
+                    })
+                    .Do(_ => SetText())
+                    .Subscribe()
                     .DisposeWith(disposables);
             });
+        }
+        private void SetText()
+        {
+            Input1.Text = "Current Scale: " + MainMapView.MapScale;
         }
     }
 }
