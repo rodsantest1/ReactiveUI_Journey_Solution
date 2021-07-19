@@ -1,7 +1,6 @@
 ﻿using ReactiveUI;
 using System;
 using System.Reactive.Disposables;
-using System.Reactive.Linq;
 using System.Windows;
 
 namespace RxuiMvpApp
@@ -19,13 +18,22 @@ namespace RxuiMvpApp
 
             this.WhenActivated(disposables =>
             {
-                var zoomIn = Observable.FromEventPattern(
-                    h => ZoomInButton.Click += new RoutedEventHandler(h),
-                    h => ZoomInButton.Click -= new RoutedEventHandler(h));
+                this.BindCommand(ViewModel, vm => vm.TestCommand, v => v.SliderInput1, nameof(SliderInput1.ValueChanged));
 
-                Observable.Merge(
-                    zoomIn.Select(_ => 42)
-                ).Subscribe(x => System.Diagnostics.Debug.WriteLine($"hello {x}"));
+                this.Bind(ViewModel,
+                    vm => vm.ZoomLevel,
+                    v => v.Input1.Text)
+                    .DisposeWith(disposables);
+
+                this.Bind(ViewModel,
+                    vm => vm.ZoomLevel,
+                    v => v.SliderInput1.Value)
+                    .DisposeWith(disposables);
+
+                this.OneWayBind(ViewModel,
+                    vm => vm.ZoomLevel,
+                    v => v.Label1.Text)
+                    .DisposeWith(disposables);
             });
         }
     }
