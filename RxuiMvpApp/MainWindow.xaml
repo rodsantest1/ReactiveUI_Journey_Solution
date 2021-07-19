@@ -10,9 +10,12 @@
         Title="MainWindow" Height="450" Width="800">
     <Grid>
         <StackPanel>
+            <TextBlock x:Name="statusMsg" />
+            <Button x:Name="ZoomInButton" Content="Zoom In" />
+            <Button x:Name="ZoomOutButton" Content="Zoom Out" />
             <TextBox x:Name="Input1" />
             <TextBlock x:Name="Label1"  />
-            <Slider x:Name="SliderInput1" />
+            <Slider x:Name="SliderInput1" Maximum="100" Value="50" />
         </StackPanel>
     </Grid>
 </reactiveui:ReactiveWindow>

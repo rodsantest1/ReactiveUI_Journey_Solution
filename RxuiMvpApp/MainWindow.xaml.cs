@@ -1,5 +1,7 @@
 ﻿using ReactiveUI;
+using System;
 using System.Reactive.Disposables;
+using System.Windows;
 
 namespace RxuiMvpApp
 {
@@ -16,6 +18,8 @@ namespace RxuiMvpApp
 
             this.WhenActivated(disposables =>
             {
+                this.BindCommand(ViewModel, vm => vm.TestCommand, v => v.SliderInput1, nameof(SliderInput1.ValueChanged));
+
                 this.Bind(ViewModel,
                     vm => vm.ZoomLevel,
                     v => v.Input1.Text)
