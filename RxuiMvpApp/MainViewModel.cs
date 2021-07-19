@@ -11,10 +11,10 @@ namespace RxuiMvpApp
 
         public MainViewModel()
         {
-            TestCommand = ReactiveCommand.Create(() =>
-            {
-                System.Diagnostics.Debug.WriteLine("Command executed.");
-            });
+            //TestCommand = ReactiveCommand.Create(() =>
+            //{
+            //    System.Diagnostics.Debug.WriteLine("Command executed.");
+            //});
         }
     }
 }
