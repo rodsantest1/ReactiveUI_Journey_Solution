@@ -5,6 +5,7 @@ using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using System;
 using System.Reactive.Linq;
+using ReactiveUI.Fody.Helpers;
 
 namespace RxuiMvpApp
 {
@@ -22,6 +23,14 @@ namespace RxuiMvpApp
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
             MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, 100000));
 
+            var zoomInButton = Observable.FromEventPattern(
+                h => ZoomInButton.Click += new System.Windows.RoutedEventHandler(h),
+                h => ZoomInButton.Click -= new System.Windows.RoutedEventHandler(h));
+
+            var zoomOutButton = Observable.FromEventPattern(
+                h => ZoomOutButton.Click += new System.Windows.RoutedEventHandler(h),
+                h => ZoomOutButton.Click -= new System.Windows.RoutedEventHandler(h));
+
             var mapWheel = Observable.FromEventPattern(
                 h => MainMapView.ViewpointChanged += h,
                 h => MainMapView.ViewpointChanged -= h
@@ -31,17 +40,6 @@ namespace RxuiMvpApp
                 h => SliderInput1.ValueChanged += new System.Windows.RoutedPropertyChangedEventHandler<double>(h),
                 h => SliderInput1.ValueChanged -= new System.Windows.RoutedPropertyChangedEventHandler<double>(h)
             );
-
-            Observable.Merge(
-                slider.Select(_ => SliderInput1.Value),
-                mapWheel.Select(_ => MainMapView.MapScale)
-                .Throttle(TimeSpan.FromMilliseconds(300))
-                .ObserveOn(RxApp.MainThreadScheduler)
-            ).Subscribe(x =>
-            {
-                ViewModel.ZoomLevel = x;
-                MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, x));
-            });
 
             this.WhenActivated(disposables =>
             {
@@ -59,6 +57,22 @@ namespace RxuiMvpApp
                     vm => vm.ZoomLevel,
                     v => v.Label1.Text)
                     .DisposeWith(disposables);
+
+                this.WhenAnyValue(x => x.ViewModel.ZoomLevel)
+                    .Subscribe(x =>
+                    {
+                        if (x > 0)
+                        {
+                            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, x));
+                        }
+                    });
+
+                Observable.Merge(
+                    zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
+                    zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
+                    slider.Select(_ => SliderInput1.Value)
+                //mapWheel.Select(_ => MainMapView.MapScale)
+                ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
         }
 
