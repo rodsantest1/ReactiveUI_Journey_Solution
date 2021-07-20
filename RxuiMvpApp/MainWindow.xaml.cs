@@ -22,6 +22,7 @@ namespace RxuiMvpApp
 
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
             MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, 100000));
+            ViewModel.ZoomLevel = 100000;
 
             var zoomInButton = Observable.FromEventPattern(
                 h => ZoomInButton.Click += new System.Windows.RoutedEventHandler(h),
@@ -70,8 +71,8 @@ namespace RxuiMvpApp
                 Observable.Merge(
                     zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
                     zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
-                    slider.Select(_ => SliderInput1.Value)
-                //mapWheel.Select(_ => MainMapView.MapScale)
+                    slider.Select(_ => SliderInput1.Value),
+                    mapWheel.Select(_ => MainMapView.MapScale)
                 ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
         }
