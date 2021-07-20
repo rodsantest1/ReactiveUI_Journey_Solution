@@ -3,6 +3,8 @@ using System.Reactive.Disposables;
 
 using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
+using System;
+using System.Reactive.Linq;
 
 namespace RxuiMvpApp
 {
@@ -17,41 +19,29 @@ namespace RxuiMvpApp
 
             ViewModel = new MainViewModel();
 
-            //Note: The way I wired up zoom buttons is not the ReactiveUI way
-            //I just needed a Proof of Concept for zooming an ArcGIS map.
-            ZoomInButton.Click += (s, e) =>
-            {
-                MainMapView.SetViewpointScaleAsync(MainMapView.MapScale / 2);
-                //System.Diagnostics.Debug.WriteLine($"Rodney was here during in {esriMapView.MapScale}");
-            };
-
-            ZoomOutButton.Click += (s, e) =>
-            {
-                MainMapView.SetViewpointScaleAsync(MainMapView.MapScale * 2);
-                //System.Diagnostics.Debug.WriteLine($"Rodney was here during out {esriMapView.MapScale}");
-            };
-
-            /* ArcGIS map init stuff  
-             * 
-             https://developers.arcgis.com/net/  
-             https://developers.arcgis.com/net/maps-2d/tutorials/display-a-map/
-             */
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
             MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, 100000));
 
-            //MainMapView.NavigationCompleted += (s, e) =>
-            //{
-            //    System.Diagnostics.Debug.WriteLine($"Rodney was here during out {MainMapView.MapScale}");
-            //};
+            var mapWheel = Observable.FromEventPattern(
+                h => MainMapView.ViewpointChanged += h,
+                h => MainMapView.ViewpointChanged -= h
+            );
 
-            MainMapView.ViewpointChanged += (s, e) =>
+            var slider = Observable.FromEventPattern(
+                h => SliderInput1.ValueChanged += new System.Windows.RoutedPropertyChangedEventHandler<double>(h),
+                h => SliderInput1.ValueChanged -= new System.Windows.RoutedPropertyChangedEventHandler<double>(h)
+            );
+
+            Observable.Merge(
+                slider.Select(_ => SliderInput1.Value),
+                mapWheel.Select(_ => MainMapView.MapScale)
+                .Throttle(TimeSpan.FromMilliseconds(300))
+                .ObserveOn(RxApp.MainThreadScheduler)
+            ).Subscribe(x =>
             {
-                System.Diagnostics.Debug.WriteLine($"Rodney was here during wheel event {MainMapView.MapScale}");
-                ViewModel.ZoomLevel = MainMapView.MapScale;
-            };
-
-            /* ReactiveUI stuff */
-
+                ViewModel.ZoomLevel = x;
+                MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, x));
+            });
 
             this.WhenActivated(disposables =>
             {
@@ -70,6 +60,27 @@ namespace RxuiMvpApp
                     v => v.Label1.Text)
                     .DisposeWith(disposables);
             });
+        }
+
+        /// <summary>
+        /// Scale a linear range between 0.0-1.0 to an exponential scale using the equation returnValue = A + B * Math.Exp(C * inputValue);
+        /// </summary>
+        /// <param name="inoutValue">The value to scale</param>
+        /// <param name="midValue">The value returned for input value of 0.5</param>
+        /// <param name="maxValue">The value to be returned for input value of 1.0</param>
+        /// <returns></returns>
+        private double ExpScale(double inputValue, double midValue, double maxValue)
+        {
+            double returnValue = 0;
+            //if (inputValue < 0 || inputValue > 1) throw new ArgumentOutOfRangeException("Input value must be between 0 and 1.0");
+            //if (midValue <= 0 || midValue >= maxValue) throw new ArgumentOutOfRangeException("MidValue must be greater than 0 and less than MaxValue");
+            // returnValue = A + B * Math.Exp(C * inputValue);
+            double M = maxValue / midValue;
+            double C = Math.Log(Math.Pow(M - 1, 2));
+            double B = maxValue / (Math.Exp(C) - 1);
+            double A = -1 * B;
+            returnValue = A + B * Math.Exp(C * inputValue);
+            return returnValue;
         }
     }
 }
