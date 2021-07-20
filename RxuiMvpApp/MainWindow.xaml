@@ -18,9 +18,9 @@
         <StackPanel>
             <Button x:Name="ZoomInButton" Content="Zoom In" />
             <Button x:Name="ZoomOutButton" Content="Zoom Out" />
-            <TextBox x:Name="Input1" Background="LightGoldenrodYellow" />
+            <TextBlock x:Name="SliderValue" Background="LightGoldenrodYellow" />
             <TextBlock x:Name="Label1"  />
-            <Slider x:Name="SliderInput1" Minimum="0.0001" Maximum="193194680" />
+            <Slider x:Name="SliderInput1" Minimum="1" Maximum="100" />
             <esri:MapView x:Name="MainMapView" Height="250"
                       Map="{Binding Map, Source={StaticResource MapViewModel}}" />
 

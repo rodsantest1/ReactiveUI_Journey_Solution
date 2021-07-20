@@ -45,15 +45,8 @@ namespace RxuiMvpApp
 
             this.WhenActivated(disposables =>
             {
-                this.Bind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.Input1.Text)
-                    .DisposeWith(disposables);
-
-                this.Bind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.SliderInput1.Value)
-                    .DisposeWith(disposables);
+                this.WhenAnyValue(x => x.SliderInput1.Value)
+                    .Subscribe(x => SliderValue.Text = $"{x}");
 
                 this.OneWayBind(ViewModel,
                     vm => vm.ZoomLevel,
@@ -74,7 +67,10 @@ namespace RxuiMvpApp
                     zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
                     slider.Select(_ => SliderInput1.Value),
                     mapWheel.Select(_ => MainMapView.MapScale)
-                ).Subscribe(x => ViewModel.ZoomLevel = x);
+                ).Subscribe(x =>
+                {
+                    ViewModel.ZoomLevel = (x * 193194);
+                });
             });
         }
     }
