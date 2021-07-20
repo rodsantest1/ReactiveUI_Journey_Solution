@@ -20,9 +20,10 @@ namespace RxuiMvpApp
 
             ViewModel = new MainViewModel();
 
-            MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
-            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, 100000));
             ViewModel.ZoomLevel = 100000;
+
+            MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
+            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, ViewModel.ZoomLevel));
 
             var zoomInButton = Observable.FromEventPattern(
                 h => ZoomInButton.Click += new System.Windows.RoutedEventHandler(h),
