@@ -77,26 +77,5 @@ namespace RxuiMvpApp
                 ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
         }
-
-        /// <summary>
-        /// Scale a linear range between 0.0-1.0 to an exponential scale using the equation returnValue = A + B * Math.Exp(C * inputValue);
-        /// </summary>
-        /// <param name="inoutValue">The value to scale</param>
-        /// <param name="midValue">The value returned for input value of 0.5</param>
-        /// <param name="maxValue">The value to be returned for input value of 1.0</param>
-        /// <returns></returns>
-        private double ExpScale(double inputValue, double midValue, double maxValue)
-        {
-            double returnValue = 0;
-            //if (inputValue < 0 || inputValue > 1) throw new ArgumentOutOfRangeException("Input value must be between 0 and 1.0");
-            //if (midValue <= 0 || midValue >= maxValue) throw new ArgumentOutOfRangeException("MidValue must be greater than 0 and less than MaxValue");
-            // returnValue = A + B * Math.Exp(C * inputValue);
-            double M = maxValue / midValue;
-            double C = Math.Log(Math.Pow(M - 1, 2));
-            double B = maxValue / (Math.Exp(C) - 1);
-            double A = -1 * B;
-            returnValue = A + B * Math.Exp(C * inputValue);
-            return returnValue;
-        }
     }
 }
