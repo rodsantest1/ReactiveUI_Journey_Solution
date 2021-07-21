@@ -1,7 +1,7 @@
 ﻿using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
-namespace RxuiMvpApp
+namespace RxuiMvpApp.ViewModels
 {
     public class MainViewModel : ReactiveObject
     {

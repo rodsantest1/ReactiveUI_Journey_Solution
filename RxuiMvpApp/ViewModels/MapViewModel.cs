@@ -9,7 +9,7 @@ using Esri.ArcGISRuntime.Mapping;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace RxuiMvpApp
+namespace RxuiMvpApp.ViewModels
 {
     public class MapViewModel : INotifyPropertyChanged
     {
