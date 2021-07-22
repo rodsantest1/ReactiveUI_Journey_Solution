@@ -7,7 +7,7 @@
    i. Website [[Go]](https://www.reactiveui.net/)   
    2. Visit #reactiveui Slack channel  
    3. An article on ReactiveUI [[Go]](https://www.toptal.com/wpf/reactiveui-and-mvvm-in-wpf)  
-2. Reactive Extensions
+2. Reactive Extensions  
    i. Website for .NET [[Go]](https://dotnetfoundation.org/projects/reactive-extensions)   
    ii. Udemy course [[Go]](https://www.udemy.com/course/rxdotnet/)  
    iii.  Website for all languages [[Go]](http://reactivex.io/)    
