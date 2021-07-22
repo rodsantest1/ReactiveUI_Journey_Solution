@@ -73,7 +73,7 @@ namespace RxuiMvpApp
                     zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
                     zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
                     slider.Select(_ => SliderInput1.Value),
-                    mapWheel.Select(_ => MainMapView.MapScale)
+                    mapWheel.Throttle(TimeSpan.FromMilliseconds(50), RxApp.MainThreadScheduler).Select(_ => MainMapView.MapScale)
                 ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
         }
