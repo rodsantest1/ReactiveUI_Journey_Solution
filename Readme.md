@@ -5,7 +5,7 @@
 ## Resources  
 1. ReactiveUI  
    i. Website [[Go]](https://www.reactiveui.net/)   
-   2. Visit #reactiveui Slack channel 
+   2. Visit #reactiveui Slack channel  
    3. An article on ReactiveUI [[Go]](https://www.toptal.com/wpf/reactiveui-and-mvvm-in-wpf)  
 2. Reactive Extensions
    i. Website for .NET [[Go]](https://dotnetfoundation.org/projects/reactive-extensions)   
