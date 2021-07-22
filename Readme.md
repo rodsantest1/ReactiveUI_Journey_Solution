@@ -9,9 +9,9 @@
    3. An article on ReactiveUI [[Go]](https://www.toptal.com/wpf/reactiveui-and-mvvm-in-wpf)  
 2. Reactive Extensions
    i. Website for .NET [[Go]](https://dotnetfoundation.org/projects/reactive-extensions)   
-   ii. Udemy course [[Go]](https://www.udemy.com/course/rxdotnet/) 
+   ii. Udemy course [[Go]](https://www.udemy.com/course/rxdotnet/)  
    iii.  Website for all languages [[Go]](http://reactivex.io/)    
-3. Dynamic Data  
+3. Dynamic Data   
    i. Website [[Go]](https://dynamic-data.org/)   
 4. Task Async/Await  
    i. Tim Corey's YouTube video [[Go]](https://www.youtube.com/watch?v=2moh18sh5p4)   
