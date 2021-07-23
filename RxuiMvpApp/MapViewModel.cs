@@ -8,32 +8,19 @@ using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using ReactiveUI.Fody.Helpers;
+using ReactiveUI;
 
 namespace RxuiMvpApp
 {
-    public class MapViewModel : INotifyPropertyChanged
+    public class MapViewModel : ReactiveObject
     {
         public MapViewModel()
         {
             SetupMap();
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private Map _map;
-        public Map Map
-        {
-            get { return _map; }
-            set
-            {
-                _map = value;
-                OnPropertyChanged();
-            }
-        }
+        [Reactive] public Map Map { get; set; }
 
         private void SetupMap()
         {
