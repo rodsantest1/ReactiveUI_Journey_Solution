@@ -1,18 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Esri.ArcGISRuntime.Geometry;
-using Esri.ArcGISRuntime.Mapping;
+﻿using Esri.ArcGISRuntime.Mapping;
+using ReactiveUI.Fody.Helpers;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
-namespace RxuiMvpApp
+namespace RxuiMvpApp.ViewModels
 {
     public class MapViewModel : INotifyPropertyChanged
     {
+        [Reactive] public double ZoomLevel { get; set; }
+
         public MapViewModel()
         {
             SetupMap();
