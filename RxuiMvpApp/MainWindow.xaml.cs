@@ -1,11 +1,9 @@
-﻿using ReactiveUI;
-using System.Reactive.Disposables;
-
-using Esri.ArcGISRuntime.Geometry;
+﻿using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
+using ReactiveUI;
 using System;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
-using ReactiveUI.Fody.Helpers;
 
 namespace RxuiMvpApp
 {
