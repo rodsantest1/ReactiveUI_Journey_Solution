@@ -5,13 +5,25 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:RxuiMvpApp"
+        xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
         xmlns:reactiveui="http://reactiveui.net" 
-        mc:Ignorable="d" FontSize="48"
+        mc:Ignorable="d" FontSize="36"
         Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <local:MapViewModel x:Key="MapViewModel" />
+    </Window.Resources>
+    
     <Grid>
         <StackPanel>
-            <TextBox x:Name="Input1" />
+            <Button x:Name="ZoomInButton" Content="Zoom In" />
+            <Button x:Name="ZoomOutButton" Content="Zoom Out" />
+            <TextBox x:Name="Input1" Background="LightGoldenrodYellow" />
             <TextBlock x:Name="Label1"  />
+            <Slider x:Name="SliderInput1" Minimum="0.0001" Maximum="193194680" IsMoveToPointEnabled="True" />
+            <esri:MapView x:Name="MainMapView" Height="250"
+                      Map="{Binding Map, Source={StaticResource MapViewModel}}" />
+
         </StackPanel>
     </Grid>
 </reactiveui:ReactiveWindow>
