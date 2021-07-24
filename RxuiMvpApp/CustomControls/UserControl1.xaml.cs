@@ -1,24 +1,24 @@
-﻿using ReactiveUI;
-using System.Reactive.Disposables;
-
-using Esri.ArcGISRuntime.Geometry;
+﻿using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
-using System;
-using System.Reactive.Linq;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using RxuiMvpApp.ViewModels;
+using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 
-namespace RxuiMvpApp
+namespace RxuiMvpApp.CustomControls
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class MainWindow : ReactiveWindow<MainViewModel>
+    public partial class UserControl1 : ReactiveUserControl<MapViewModel>
     {
-        public MainWindow()
+        public UserControl1()
         {
             InitializeComponent();
 
-            ViewModel = new MainViewModel();
+            ViewModel = new MapViewModel();
 
             ViewModel.ZoomLevel = 100000;
 
@@ -65,7 +65,14 @@ namespace RxuiMvpApp
                     {
                         if (x > 0)
                         {
-                            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, x));
+                            Envelope extent = (Envelope)MainMapView.GetCurrentViewpoint(ViewpointType.BoundingGeometry)?.TargetGeometry;
+
+                            if (extent != null)
+                            {
+                                var updatedViewpoint = new Viewpoint(extent.GetCenter(), x);
+                                MainMapView.SetViewpoint(updatedViewpoint);
+                                ViewModel.ZoomLevel = x;
+                            }
                         }
                     });
 
@@ -76,6 +83,30 @@ namespace RxuiMvpApp
                     mapWheel.Throttle(TimeSpan.FromMilliseconds(50), RxApp.MainThreadScheduler).Select(_ => MainMapView.MapScale)
                 ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
+
         }
     }
 }
+
+namespace RxuiMvpApp.ViewModels
+{
+
+    public class MapViewModel : ReactiveObject
+    {
+        [Reactive] public double ZoomLevel { get; set; }
+
+        public MapViewModel()
+        {
+            SetupMap();
+        }
+
+        [Reactive] public Map Map { get; set; }
+
+        private void SetupMap()
+        {
+            // Create a new map with a 'topographic vector' basemap.
+            Map = new Map(BasemapStyle.ArcGISTopographic);
+        }
+    }
+}
+
