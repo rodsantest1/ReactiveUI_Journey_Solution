@@ -2,6 +2,7 @@
 using Esri.ArcGISRuntime.Mapping;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
+using RxuiMvpApp.ViewModels;
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -78,6 +79,10 @@ namespace RxuiMvpApp.CustomControls
 
         }
     }
+}
+
+namespace RxuiMvpApp.ViewModels
+{
 
     public class MapViewModel : ReactiveObject
     {
@@ -97,3 +102,4 @@ namespace RxuiMvpApp.CustomControls
         }
     }
 }
+
