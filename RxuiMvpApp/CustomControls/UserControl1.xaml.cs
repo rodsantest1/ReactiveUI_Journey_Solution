@@ -1,7 +1,7 @@
 ﻿using Esri.ArcGISRuntime.Geometry;
 using Esri.ArcGISRuntime.Mapping;
 using ReactiveUI;
-using RxuiMvpApp.ViewModels;
+using ReactiveUI.Fody.Helpers;
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
@@ -76,6 +76,24 @@ namespace RxuiMvpApp.CustomControls
                 ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
 
+        }
+    }
+
+    public class MapViewModel : ReactiveObject
+    {
+        [Reactive] public double ZoomLevel { get; set; }
+
+        public MapViewModel()
+        {
+            SetupMap();
+        }
+
+        [Reactive] public Map Map { get; set; }
+
+        private void SetupMap()
+        {
+            // Create a new map with a 'topographic vector' basemap.
+            Map = new Map(BasemapStyle.ArcGISTopographic);
         }
     }
 }
