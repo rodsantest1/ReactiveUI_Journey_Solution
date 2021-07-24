@@ -79,8 +79,8 @@ namespace RxuiMvpApp.CustomControls
                 Observable.Merge(
                     zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
                     zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
-                    slider.Select(_ => SliderInput1.Value),
-                    mapWheel.Throttle(TimeSpan.FromMilliseconds(50), RxApp.MainThreadScheduler).Select(_ => MainMapView.MapScale)
+                    slider.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => SliderInput1.Value),
+                    mapWheel.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => MainMapView.MapScale)
                 ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
 
