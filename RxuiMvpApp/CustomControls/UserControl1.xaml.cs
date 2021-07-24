@@ -65,7 +65,14 @@ namespace RxuiMvpApp.CustomControls
                     {
                         if (x > 0)
                         {
-                            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, x));
+                            Envelope extent = (Envelope)MainMapView.GetCurrentViewpoint(ViewpointType.BoundingGeometry)?.TargetGeometry;
+
+                            if (extent != null)
+                            {
+                                var updatedViewpoint = new Viewpoint(extent.GetCenter(), x);
+                                MainMapView.SetViewpoint(updatedViewpoint);
+                                ViewModel.ZoomLevel = x;
+                            }
                         }
                     });
 
