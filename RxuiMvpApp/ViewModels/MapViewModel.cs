@@ -1,34 +1,17 @@
 ﻿using Esri.ArcGISRuntime.Mapping;
+using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace RxuiMvpApp.ViewModels
 {
-    public class MapViewModel : INotifyPropertyChanged
+    public class MapViewModel : ReactiveObject
     {
+        [Reactive] public Map Map { get; set; }
         [Reactive] public double ZoomLevel { get; set; }
 
         public MapViewModel()
         {
             SetupMap();
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-        private Map _map;
-        public Map Map
-        {
-            get { return _map; }
-            set
-            {
-                _map = value;
-                OnPropertyChanged();
-            }
         }
 
         private void SetupMap()
