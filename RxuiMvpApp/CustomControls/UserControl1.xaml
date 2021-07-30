@@ -17,13 +17,14 @@
 
     <Grid>
         <StackPanel>
-            <Button x:Name="ZoomInButton" Content="Zoom In" />
-            <Button x:Name="ZoomOutButton" Content="Zoom Out" />
-            <TextBox x:Name="Input1" Background="LightGoldenrodYellow" />
-            <TextBlock x:Name="Label1"  />
-            <Slider x:Name="SliderInput1" Minimum="0.0001" Maximum="193194680" IsMoveToPointEnabled="True" />
-            <esri:MapView x:Name="MainMapView" Height="250"
+            <TextBox x:Name="Input1" Width="500" Background="LightGoldenrodYellow" />
+            <TextBlock x:Name="Label1" Width="500"  />            <esri:MapView x:Name="MainMapView" Height="250"
                       Map="{Binding Map, Source={StaticResource MapViewModel}}" />
+        </StackPanel>
+        <StackPanel>
+            <Button x:Name="ZoomInButton" Content="Zoom In" Width="125" HorizontalAlignment="Left" />
+            <Slider x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Height="100" Minimum="0.0001" Maximum="193194680" IsMoveToPointEnabled="True" Margin="0 15 0 15" />
+            <Button x:Name="ZoomOutButton" Content="Zoom Out" Width="125" HorizontalAlignment="Left" />
         </StackPanel>
     </Grid>
 </rxui:ReactiveUserControl>
