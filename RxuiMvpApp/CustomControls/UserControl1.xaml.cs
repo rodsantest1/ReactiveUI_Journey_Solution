@@ -14,13 +14,17 @@ namespace RxuiMvpApp.CustomControls
     /// </summary>
     public partial class UserControl1 : ReactiveUserControl<MapViewModel>
     {
+        const double A = -26110;
+        const double B = 26111;
+        const double C = 0.04317;
+
         public UserControl1()
         {
             InitializeComponent();
 
             ViewModel = new MapViewModel
             {
-                ZoomLevel = 100000
+                ZoomLevel = 50
             };
 
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
@@ -70,21 +74,35 @@ namespace RxuiMvpApp.CustomControls
 
                             if (extent != null)
                             {
-                                var updatedViewpoint = new Viewpoint(extent.GetCenter(), x);
+                                var displayValue = GetDisplayValue(x);
+                                var updatedViewpoint = new Viewpoint(extent.GetCenter(), displayValue);
                                 MainMapView.SetViewpoint(updatedViewpoint);
-                                ViewModel.ZoomLevel = x;
+                                ViewModel.ZoomLevel = displayValue;
                             }
                         }
                     });
 
-                Observable.Merge(
-                    zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
-                    zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
-                    slider.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => SliderInput1.Value),
-                    mapWheel.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => MainMapView.MapScale)
-                ).Subscribe(x => ViewModel.ZoomLevel = x);
+                //Observable.Merge(
+                //    zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
+                //    zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
+                //    slider.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => SliderInput1.Value),
+                //    mapWheel.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => MainMapView.MapScale)
+                //).Subscribe(x => ViewModel.ZoomLevel = x);
             });
 
+        }
+
+        private double GetDisplayValue(double sliderValue)
+        {
+            var displayValue = A + (B * Math.Exp(C * sliderValue));
+
+            return displayValue;
+        }
+        private double GetSliderValue(double displayValue)
+        {
+            var sliderValue = Math.Log((displayValue - A) / B) / C;
+            
+            return sliderValue;
         }
     }
 }
