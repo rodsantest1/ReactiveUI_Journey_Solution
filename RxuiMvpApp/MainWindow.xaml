@@ -11,8 +11,8 @@
     <Grid>
         <StackPanel>
             <TextBox x:Name="Input1" />
-            <TextBlock x:Name="Label1"  />
-            <Slider x:Name="SliderInput1" />
+            <TextBlock x:Name="Label1" Background="LightGoldenrodYellow"  />
+            <Slider x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Width="25" Height="100" Minimum="1" Maximum="100" IsMoveToPointEnabled="True" Margin="15 15 0 15" Background="LightGray" HorizontalAlignment="Left" />
         </StackPanel>
     </Grid>
 </reactiveui:ReactiveWindow>
