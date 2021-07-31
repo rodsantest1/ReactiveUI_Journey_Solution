@@ -6,6 +6,7 @@ using RxuiMvpApp.ViewModels;
 using System;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
+using System.Windows.Data;
 
 namespace RxuiMvpApp.CustomControls
 {
@@ -51,10 +52,10 @@ namespace RxuiMvpApp.CustomControls
                     v => v.Input1.Text)
                     .DisposeWith(disposables);
 
-                this.Bind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.SliderInput1.Value)
-                    .DisposeWith(disposables);
+                //this.Bind(ViewModel,
+                //    vm => vm.ZoomLevel,
+                //    v => v.SliderInput1.Value)
+                //    .DisposeWith(disposables);
 
                 this.OneWayBind(ViewModel,
                     vm => vm.ZoomLevel,
@@ -85,6 +86,25 @@ namespace RxuiMvpApp.CustomControls
                 ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
 
+        }
+    }
+
+    public class YesNoToBooleanConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter,
+                System.Globalization.CultureInfo culture)
+        {
+            var displayValue = -26110 + (26111 * Math.Exp(0.04317 * (double)value));
+
+            return displayValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter,
+                System.Globalization.CultureInfo culture)
+        {
+            var sliderValue = Math.Log(((double)value + 26110) / 26111) / 0.04317;
+
+            return sliderValue;
         }
     }
 }

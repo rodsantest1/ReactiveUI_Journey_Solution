@@ -7,12 +7,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    xmlns:local="clr-namespace:RxuiMvpApp.ViewModels"
+    xmlns:local="clr-namespace:RxuiMvpApp.ViewModels" 
+    xmlns:local1="clr-namespace:RxuiMvpApp.CustomControls" 
+    d:DataContext="{d:DesignInstance Type=local:MapViewModel}"
     mc:Ignorable="d" FontSize="24"
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
         <local:MapViewModel x:Key="MapViewModel" />
+        <local1:YesNoToBooleanConverter x:Key="YesNoToBooleanConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -23,7 +26,8 @@
         </StackPanel>
         <StackPanel>
             <Button x:Name="ZoomInButton" Content="Zoom In" Width="125" HorizontalAlignment="Left" />
-            <Slider x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Width="25" Height="100" Minimum="1" Maximum="200000" IsMoveToPointEnabled="True" Margin="15 15 0 15" Background="LightGray" HorizontalAlignment="Left" />
+            <Slider Value="{Binding ZoomLevel, Converter={StaticResource YesNoToBooleanConverter}}"  
+                x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Width="25" Height="100" Minimum="1" Maximum="100" IsMoveToPointEnabled="True" Margin="15 15 0 15" Background="LightGray" HorizontalAlignment="Left" />
             <Button x:Name="ZoomOutButton" Content="Zoom Out" Width="125" HorizontalAlignment="Left" />
         </StackPanel>
     </Grid>
