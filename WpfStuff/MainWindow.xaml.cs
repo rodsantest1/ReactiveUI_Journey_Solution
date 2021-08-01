@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Globalization;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 
 namespace WpfStuff
@@ -12,6 +14,18 @@ namespace WpfStuff
         public MainWindow()
         {
             InitializeComponent();
+
+            slider1.Value = 50;
+        }
+
+        private void button1_Click(object sender, RoutedEventArgs e)
+        {
+            slider1.Value = +10;
+        }
+
+        private void Combo1_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+            txtLabel.Text = ((ComboBoxItem)((ComboBox)sender).SelectedValue).Content.ToString();
         }
     }
 
@@ -43,6 +57,19 @@ namespace WpfStuff
                     return "no";
             }
             return "no";
+        }
+    }
+
+    public class SlideToLabelConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return "Convert";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return "ConvertBack";
         }
     }
 

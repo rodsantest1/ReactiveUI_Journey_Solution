@@ -8,17 +8,30 @@
         Title="MainWindow" Height="450" Width="800">
     <Window.Resources>
         <local:YesNoToBooleanConverter x:Key="YesNoToBooleanConverter"/>
+        <local:SlideToLabelConverter x:Key="SlideToLabelConverter"/>
     </Window.Resources>
 
     <Grid>
+        
         <StackPanel Margin="10">
-            <TextBox Name="txtValue" />
+            
+            <TextBlock x:Name="txtLabel" Text="{Binding ElementName=txtValue, Path=Text}" />
+            <TextBox Name="txtValue" Margin="10" />
 
-            <CheckBox Content="Yes" 
+            <CheckBox Content="Yes"  Margin="10"
                       IsChecked="{Binding ElementName=txtValue, 
                                           Path=Text, 
                                           Converter={StaticResource YesNoToBooleanConverter}}" 
                       />
+        </StackPanel>
+        <StackPanel  Margin="50">
+            <Button x:Name="button1" Content="Click" Click="button1_Click" Margin="10" />
+            <Slider x:Name="slider1" Minimum="1" Maximum="100" Margin="10" 
+                    Value="{Binding ElementName=txtValue, Path=Text, Converter={StaticResource SlideToLabelConverter}}" />
+            <ComboBox Name="Combo1" SelectionChanged="Combo1_SelectionChanged">
+                <ComboBoxItem>One</ComboBoxItem>
+                <ComboBoxItem>Two</ComboBoxItem>
+            </ComboBox>
         </StackPanel>
     </Grid>
 </Window>
