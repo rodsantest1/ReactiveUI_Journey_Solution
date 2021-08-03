@@ -51,15 +51,8 @@ namespace RxuiMvpApp.CustomControls
                     v => v.Input1.Text)
                     .DisposeWith(disposables);
 
-                this.Bind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.SliderInput1.Value)
-                    .DisposeWith(disposables);
-
-                this.OneWayBind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.Label1.Text)
-                    .DisposeWith(disposables);
+                this.WhenAnyValue(x => x.SliderInput1.Value)
+                    .Subscribe(x => Label1.Text = x.ToString());
 
                 this.WhenAnyValue(x => x.ViewModel.ZoomLevel)
                     .Subscribe(x =>
@@ -73,6 +66,7 @@ namespace RxuiMvpApp.CustomControls
                                 var updatedViewpoint = new Viewpoint(extent.GetCenter(), x);
                                 MainMapView.SetViewpoint(updatedViewpoint);
                                 ViewModel.ZoomLevel = x;
+                                SliderInput1.Value = x / 2000;
                             }
                         }
                     });
@@ -80,8 +74,9 @@ namespace RxuiMvpApp.CustomControls
                 Observable.Merge(
                     zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
                     zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
-                    slider.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => SliderInput1.Value),
-                    mapWheel.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => MainMapView.MapScale)
+                    //todo
+                        //mapWheel.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => MainMapView.MapScale),
+                    slider.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => SliderInput1.Value * 2000)
                 ).Subscribe(x => ViewModel.ZoomLevel = x);
             });
 
