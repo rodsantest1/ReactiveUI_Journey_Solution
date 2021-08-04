@@ -18,7 +18,8 @@
     <Grid>
         <StackPanel>
             <TextBox x:Name="Input1" Width="500" Background="LightGoldenrodYellow" />
-            <TextBlock x:Name="Label1" Width="500"  />            <esri:MapView x:Name="MainMapView" Height="250"
+            <TextBlock x:Name="Label1" Width="500"  />
+            <esri:MapView x:Name="MainMapView" Height="250"
                       Map="{Binding Map, Source={StaticResource MapViewModel}}" />
         </StackPanel>
         <StackPanel>
