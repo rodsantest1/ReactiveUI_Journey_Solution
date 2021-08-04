@@ -23,6 +23,8 @@ namespace RxuiMvpApp.CustomControls
                 ZoomLevel = 100000
             };
 
+            SliderInput1.Value = 50;
+
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
             MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, ViewModel.ZoomLevel));
 
