@@ -24,7 +24,7 @@
         </StackPanel>
         <StackPanel>
             <Button x:Name="ZoomInButton" Content="Zoom In" Width="125" HorizontalAlignment="Left" />
-            <Slider x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Width="25" Height="100" Minimum="1" Maximum="200000" IsMoveToPointEnabled="True" Margin="15 15 0 15" Background="LightGray" HorizontalAlignment="Left" />
+            <Slider x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Width="25" Height="100" Minimum="1" Maximum="100" IsMoveToPointEnabled="True" Margin="15 15 0 15" Background="LightGray" HorizontalAlignment="Left" />
             <Button x:Name="ZoomOutButton" Content="Zoom Out" Width="125" HorizontalAlignment="Left" />
         </StackPanel>
     </Grid>
