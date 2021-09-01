@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Esri.ArcGISRuntime.Geometry;
+using Esri.ArcGISRuntime.Mapping;
 
 namespace EsriArcGisDemo
 {
@@ -23,6 +25,10 @@ namespace EsriArcGisDemo
         public MainWindow()
         {
             InitializeComponent();
+
+            MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
+            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, 100000));
+
         }
     }
 }
