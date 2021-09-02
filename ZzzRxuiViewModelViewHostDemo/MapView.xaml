@@ -14,5 +14,10 @@
             <TextBlock Text="MapView" />
             <local:MapControl x:Name="MapControl" />
         </StackPanel>
+        <StackPanel Margin="20 255 0 0">
+            <Button x:Name="ZoomInButton" Content="Zoom In" Width="60" HorizontalAlignment="Left" />
+            <Slider x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Width="25" Height="100" Minimum="1" Maximum="200000" IsMoveToPointEnabled="True" Margin="15 15 0 15" Background="LightGray" HorizontalAlignment="Left" />
+            <Button x:Name="ZoomOutButton" Content="Zoom Out" Width="60" HorizontalAlignment="Left" />
+        </StackPanel>
     </Grid>
 </rxui:ReactiveUserControl>

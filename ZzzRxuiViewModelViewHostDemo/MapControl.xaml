@@ -15,6 +15,10 @@
         <Border BorderBrush="Black" BorderThickness="5">
             <StackPanel Margin="5">
                 <TextBlock Text="MapControl" />
+
+                <TextBox x:Name="Input1" Width="500" Background="LightGoldenrodYellow" />
+                <TextBlock x:Name="Label1" Width="500"  />
+
                 <esri:MapView x:Name="esriMapView" Height="500" Map="{Binding Map, Source={StaticResource MapViewModel}}" />
             </StackPanel>
         </Border>
