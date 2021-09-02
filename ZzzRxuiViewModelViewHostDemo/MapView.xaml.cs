@@ -60,20 +60,8 @@ namespace ZzzRxuiViewModelViewHostDemo
                     .DisposeWith(disposables);
 
                 this.WhenAnyValue(x => x.ViewModel.ZoomLevel)
-                    .Subscribe(x =>
-                    {
-                        if (x > 0)
-                        {
-                            Envelope extent = (Envelope)MapControl.esriMapView.GetCurrentViewpoint(ViewpointType.BoundingGeometry)?.TargetGeometry;
-
-                            if (extent != null)
-                            {
-                                var updatedViewpoint = new Viewpoint(extent.GetCenter(), x);
-                                MapControl.esriMapView.SetViewpoint(updatedViewpoint);
-                                ViewModel.ZoomLevel = x;
-                            }
-                        }
-                    });
+                .Where(x => x > 0)
+                    .Subscribe(async x => await MapControl.esriMapView.SetViewpointScaleAsync(x));
 
                 Observable.Merge(
                     zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
