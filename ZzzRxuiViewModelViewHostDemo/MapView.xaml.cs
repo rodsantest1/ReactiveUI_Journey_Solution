@@ -1,4 +1,7 @@
-﻿using System;
+﻿using Esri.ArcGISRuntime.Geometry;
+using Esri.ArcGISRuntime.Mapping;
+using ReactiveUI;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -16,11 +19,20 @@ namespace ZzzRxuiViewModelViewHostDemo
     /// <summary>
     /// Interaction logic for MapView.xaml
     /// </summary>
-    public partial class MapView : UserControl
+    public partial class MapView : ReactiveUserControl<MapViewModel>
     {
         public MapView()
         {
             InitializeComponent();
+
+            ViewModel = new MapViewModel
+            {
+                ZoomLevel = 100000
+            };
+
+            MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
+            this.MapControl.esriMapView.SetViewpoint(new Viewpoint(mapCenterPoint, ViewModel.ZoomLevel));
+
         }
     }
 }

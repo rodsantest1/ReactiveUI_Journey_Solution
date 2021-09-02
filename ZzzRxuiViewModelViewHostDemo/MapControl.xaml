@@ -4,9 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ZzzRxuiViewModelViewHostDemo"
+             xmlns:esri="http://schemas.esri.com/arcgis/runtime/2013"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <local:MapViewModel x:Key="MapViewModel" />
+    </UserControl.Resources>
+
     <Grid>
-            
+        <Border BorderBrush="Black" BorderThickness="5">
+            <StackPanel Margin="5">
+                <TextBlock Text="MapControl" />
+                <esri:MapView x:Name="esriMapView" Height="500" Map="{Binding Map, Source={StaticResource MapViewModel}}" />
+            </StackPanel>
+        </Border>
     </Grid>
 </UserControl>

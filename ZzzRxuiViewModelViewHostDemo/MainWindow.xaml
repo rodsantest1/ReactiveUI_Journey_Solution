@@ -5,8 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ZzzRxuiViewModelViewHostDemo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="650" Width="800">
     <Grid>
-
+        <StackPanel Margin="5">
+            <TextBlock Text="MapHostView" />
+            <Border BorderBrush="Black" BorderThickness="5">
+                <local:MapView x:Name="Test" />
+            </Border>
+        </StackPanel>
     </Grid>
 </Window>
