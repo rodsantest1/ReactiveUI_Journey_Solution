@@ -45,18 +45,18 @@ namespace ZzzRxuiViewModelViewHostDemo
             this.WhenActivated(disposables =>
             {
                 this.Bind(ViewModel,
-             vm => vm.ZoomLevel,
-             v => v.MapControl.Input1.Text)
-             .DisposeWith(disposables);
+                        vm => vm.ZoomLevel,
+                        v => v.MapControl.Input1.Text)
+                    .DisposeWith(disposables);
 
                 this.Bind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.SliderInput1.Value)
+                        vm => vm.ZoomLevel,
+                        v => v.SliderInput1.Value)
                     .DisposeWith(disposables);
 
                 this.OneWayBind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.MapControl.Label1.Text)
+                        vm => vm.ZoomLevel,
+                        v => v.MapControl.Label1.Text)
                     .DisposeWith(disposables);
 
                 this.WhenAnyValue(x => x.ViewModel.ZoomLevel)
