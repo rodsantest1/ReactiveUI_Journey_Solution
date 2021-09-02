@@ -16,10 +16,7 @@ namespace ZzzRxuiViewModelViewHostDemo
         {
             InitializeComponent();
 
-            ViewModel = new MapViewModel
-            {
-                ZoomLevel = 100000
-            };
+            ViewModel = new MapViewModel();
 
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
             this.MapControl.esriMapView.SetViewpoint(new Viewpoint(mapCenterPoint, ViewModel.ZoomLevel));

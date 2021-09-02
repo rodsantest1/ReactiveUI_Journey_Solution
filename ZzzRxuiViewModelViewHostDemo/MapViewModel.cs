@@ -15,6 +15,7 @@ namespace ZzzRxuiViewModelViewHostDemo
 
         public MapViewModel()
         {
+            ZoomLevel = 100000;
             SetupMap();
         }
 

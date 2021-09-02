@@ -18,10 +18,7 @@ namespace RxuiMvpApp.CustomControls
         {
             InitializeComponent();
 
-            ViewModel = new MapViewModel
-            {
-                ZoomLevel = 100000
-            };
+            ViewModel = new MapViewModel();
 
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
             MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, ViewModel.ZoomLevel));
@@ -86,6 +83,7 @@ namespace RxuiMvpApp.ViewModels
 
         public MapViewModel()
         {
+            ZoomLevel = 100000;
             SetupMap();
         }
 
