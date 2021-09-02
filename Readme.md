@@ -2,6 +2,9 @@
 
 ![AddImage](Image1.png)  
 
+## Project Start Up
+RxuiMvpApp
+
 ## Resources  
 1. ReactiveUI  
    i. Website [[Go]](https://www.reactiveui.net/)   
