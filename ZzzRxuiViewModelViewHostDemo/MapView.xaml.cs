@@ -57,15 +57,15 @@ namespace ZzzRxuiViewModelViewHostDemo
                     .DisposeWith(disposables);
 
                 this.WhenAnyValue(x => x.ViewModel.ZoomLevel)
-                .Where(x => x > 0)
+                    .Where(x => x > 0)
                     .Subscribe(async x => await MapControl.esriMapView.SetViewpointScaleAsync(x));
 
                 Observable.Merge(
                     zoomInButton.Select(_ => ViewModel.ZoomLevel / 2),
                     zoomOutButton.Select(_ => ViewModel.ZoomLevel * 2),
                     slider.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => SliderInput1.Value),
-                    mapWheel.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => MapControl.esriMapView.MapScale)
-                ).Subscribe(x => ViewModel.ZoomLevel = x);
+                    mapWheel.Throttle(TimeSpan.FromMilliseconds(75), RxApp.MainThreadScheduler).Select(_ => MapControl.esriMapView.MapScale))
+                .Subscribe(x => ViewModel.ZoomLevel = x);
             });
 
         }
