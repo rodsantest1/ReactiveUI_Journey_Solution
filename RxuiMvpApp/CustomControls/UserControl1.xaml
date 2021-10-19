@@ -16,11 +16,11 @@
     </UserControl.Resources>
 
     <Grid>
+        <esri:MapView x:Name="MainMapView"
+                      Map="{Binding Map, Source={StaticResource MapViewModel}}" />
         <StackPanel>
             <TextBox x:Name="Input1" Width="500" Background="LightGoldenrodYellow" />
             <TextBlock x:Name="Label1" Width="500"  />
-            <esri:MapView x:Name="MainMapView" Height="250"
-                      Map="{Binding Map, Source={StaticResource MapViewModel}}" />
         </StackPanel>
         <StackPanel>
             <Button x:Name="ZoomInButton" Content="Zoom In" Width="125" HorizontalAlignment="Left" />

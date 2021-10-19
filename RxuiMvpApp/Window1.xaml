@@ -6,8 +6,8 @@
         xmlns:local="clr-namespace:RxuiMvpApp" 
         xmlns:local1="clr-namespace:RxuiMvpApp.CustomControls"
         mc:Ignorable="d"
-        Title="Window1" Height="450" Width="800">
-    <Grid>
+        Title="Window1" Height="800" Width="1200">
+    <DockPanel>
         <local1:UserControl1 x:Name="MyUserControl1"></local1:UserControl1>
-    </Grid>
+    </DockPanel>
 </Window>
