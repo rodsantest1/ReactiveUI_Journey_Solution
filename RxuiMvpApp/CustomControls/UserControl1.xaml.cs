@@ -6,7 +6,6 @@ using RxuiMvpApp.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reactive.Disposables;
 
 namespace RxuiMvpApp.CustomControls
 {
@@ -19,15 +18,23 @@ namespace RxuiMvpApp.CustomControls
         private const int _minScale = 81920000;
         private const int _startScale = 10000;
         private double _lastScale = _startScale;
-        private MapPoint _mouseMapPoint;
+        private int _scaleIndex = 0;
         private List<double> _scales = new List<double>();
 
         private void SetScales()
         {
-            for (var scale = _maxScale; scale <= _minScale; scale *= 2)
+            var counter = 0;
+            for (var scale = _maxScale; scale <= _minScale; scale *= 2, counter++)
             {
                 _scales.Add(scale);
+                if (scale == _startScale)
+                {
+                    SliderInput1.Value = counter;
+                }
             }
+
+            SliderInput1.Minimum = 0;
+            SliderInput1.Maximum = _scales.Count - 1;
         }
 
         public UserControl1()
@@ -37,103 +44,82 @@ namespace RxuiMvpApp.CustomControls
             SetScales();
             ViewModel = new MapViewModel();
 
-            //MainMapView.InteractionOptions = new Esri.ArcGISRuntime.UI.MapViewInteractionOptions()
-            //{
-            //    IsZoomEnabled = false
-            //};
-
             MapPoint mapCenterPoint = new MapPoint(-118.805, 34.027, SpatialReferences.Wgs84);
-            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, ViewModel.ZoomLevel));
+            MainMapView.SetViewpoint(new Viewpoint(mapCenterPoint, _startScale));
 
+            ZoomInButton.Click += ZoomInButton_Click;
+            ZoomOutButton.Click += ZoomOutButton_Click;
             SliderInput1.ValueChanged += SliderInput1_ValueChanged;
             MainMapView.NavigationCompleted += MainMapView_NavigationCompleted;
-            MainMapView.MouseMove += MainMapView_MouseMove;
-            //MainMapView.MouseWheel += MainMapView_MouseWheel;
-
-            this.WhenActivated(disposables =>
-            {
-                this.Bind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.Input1.Text)
-                    .DisposeWith(disposables);
-
-                this.OneWayBind(ViewModel,
-                    vm => vm.ZoomLevel,
-                    v => v.Label1.Text)
-                    .DisposeWith(disposables);
-            });
         }
 
-        private void MainMapView_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        private void ZoomInButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            _mouseMapPoint = MainMapView.ScreenToLocation(e.GetPosition(MainMapView));
+            if (_scaleIndex - 1 >= 0)
+            {
+                SliderInput1.Value = --_scaleIndex;
+            }
         }
 
-        //private void MainMapView_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
-        //{
-        //if (e.Delta > 0)
-        //{
-        //    ViewModel.ZoomLevel /= 2;
-        //}
-        //else
-        //{
-        //    ViewModel.ZoomLevel *= 2;
-        //}
-
-        //SliderInput1.ValueChanged -= SliderInput1_ValueChanged;
-        //var position = MainMapView.ScreenToLocation(e.GetPosition(MainMapView));
-        //MainMapView.SetViewpoint(new Viewpoint(position, ViewModel.ZoomLevel));
-        //SliderInput1.Value = ViewModel.ZoomLevel;
-        //SliderInput1.ValueChanged += SliderInput1_ValueChanged;
-        //}
-
-        private void MainMapView_NavigationCompleted(object sender, EventArgs e)
+        private void ZoomOutButton_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            // mapscale = 15854.65465123
-            // last = 10000
-            if (MainMapView.MapScale > _lastScale)
+            if (_scaleIndex + 1 < _scales.Count)
             {
-                // zoom out
-                var t = _scales.Where(x => x > _lastScale).FirstOrDefault();
-                if (t > 0)
-                {
-                    _lastScale = t;
-                    MainMapView.SetViewpoint(new Viewpoint(_mouseMapPoint, t));
-                    ViewModel.ZoomLevel = MainMapView.MapScale;
-                }
-            }
-            else if (MainMapView.MapScale < _lastScale)
-            {
-                // zoom in
-                var t = _scales.Where(x => x < _lastScale).LastOrDefault();
-                if (t > 0)
-                {
-                    _lastScale = t;
-                    MainMapView.SetViewpoint(new Viewpoint(_mouseMapPoint, t));
-                    ViewModel.ZoomLevel = MainMapView.MapScale;
-                }
-            }
-
-            if (_scales.Contains(MainMapView.MapScale))
-            {
-                SliderInput1.ValueChanged -= SliderInput1_ValueChanged;
-                //SliderInput1.Value = MainMapView.MapScale;
-                SliderInput1.Value = _scales.IndexOf(MainMapView.MapScale);
-                SliderInput1.ValueChanged += SliderInput1_ValueChanged;
+                SliderInput1.Value = ++_scaleIndex;
             }
         }
 
         private void SliderInput1_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
         {
-            //MainMapView.NavigationCompleted -= MainMapView_NavigationCompleted;
+            _scaleIndex = (int)e.NewValue;
+            SetZoomForNonMouseEvent(_scaleIndex);
+        }
 
-            //ViewModel.ZoomLevel = e.NewValue;
-            var scale = _scales[(int)e.NewValue];
-            ViewModel.ZoomLevel = scale;
+        private void SetZoomForNonMouseEvent(int scaleIndex)
+        {
+            MainMapView.NavigationCompleted -= MainMapView_NavigationCompleted;
+
             var env = (Envelope)MainMapView.GetCurrentViewpoint(ViewpointType.BoundingGeometry).TargetGeometry;
+            var scale = _scales[scaleIndex];
             MainMapView.SetViewpoint(new Viewpoint(env.GetCenter(), scale));
-            
-            //MainMapView.NavigationCompleted += MainMapView_NavigationCompleted;
+
+            MainMapView.NavigationCompleted += MainMapView_NavigationCompleted;
+        }
+
+        private void MainMapView_NavigationCompleted(object sender, EventArgs e)
+        {
+            if (MainMapView.MapScale != _lastScale)
+            {
+                var isZoomIn = MainMapView.MapScale < _lastScale;
+
+                _lastScale = !isZoomIn ?
+                    _scales.Where(x => x > _lastScale).FirstOrDefault() :
+                    _scales.Where(x => x < _lastScale).LastOrDefault();
+
+                if (_lastScale > 0)
+                {
+                    var scaleToUse = -1;
+                    var minDiff = double.MaxValue;
+                    foreach (var scale in _scales)
+                    {
+                        var diff = MainMapView.MapScale - scale;
+                        diff = diff < 0 ? diff * -1 : diff;
+                        if (diff <= minDiff)
+                        {
+                            minDiff = diff;
+                            scaleToUse = _scales.IndexOf(scale);
+                        }
+                    }
+
+                    if (scaleToUse >= 0)
+                    {
+                        SliderInput1.ValueChanged -= SliderInput1_ValueChanged;
+                        SliderInput1.Value = scaleToUse;
+                        _scaleIndex = scaleToUse;
+                        SliderInput1.ValueChanged += SliderInput1_ValueChanged;
+                    }
+                }
+            }
         }
     }
 }
@@ -143,11 +129,8 @@ namespace RxuiMvpApp.ViewModels
 
     public class MapViewModel : ReactiveObject
     {
-        [Reactive] public double ZoomLevel { get; set; }
-
         public MapViewModel()
         {
-            ZoomLevel = 10000;
             SetupMap();
         }
 

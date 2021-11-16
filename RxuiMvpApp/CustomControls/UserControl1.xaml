@@ -9,22 +9,22 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:local="clr-namespace:RxuiMvpApp.ViewModels"
     mc:Ignorable="d" FontSize="24"
-             d:DesignHeight="450" d:DesignWidth="800">
-
+    d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <local:MapViewModel x:Key="MapViewModel" />
+        <Style x:Key="sliderStyle" TargetType="Slider">
+            <Setter Property="Foreground" Value="Black" />
+        </Style>
     </UserControl.Resources>
 
     <Grid>
         <esri:MapView x:Name="MainMapView"
                       Map="{Binding Map, Source={StaticResource MapViewModel}}" />
         <StackPanel>
-            <TextBox x:Name="Input1" Width="500" Background="LightGoldenrodYellow" />
-            <TextBlock x:Name="Label1" Width="500"  />
-        </StackPanel>
-        <StackPanel>
             <Button x:Name="ZoomInButton" Content="Zoom In" Width="125" HorizontalAlignment="Left" />
-            <Slider x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Width="25" Height="100" IsMoveToPointEnabled="True" Margin="15 15 0 15" Background="LightGray" HorizontalAlignment="Left" Maximum="16" Minimum="0" SmallChange="1" IsSnapToTickEnabled="True" />
+            <Slider x:Name="SliderInput1" IsDirectionReversed="True" Orientation="Vertical" Width="25" Height="100"
+                    IsMoveToPointEnabled="True" Margin="15 15 0 15" Background="LightGray" HorizontalAlignment="Left"
+                    SmallChange="1" IsSnapToTickEnabled="True" />
             <Button x:Name="ZoomOutButton" Content="Zoom Out" Width="125" HorizontalAlignment="Left" />
         </StackPanel>
     </Grid>
