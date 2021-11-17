@@ -21,6 +21,26 @@ namespace RxuiMvpApp.CustomControls
         private int _scaleIndex = 0;
         private List<double> _scales = new List<double>();
 
+        /*
+        _scaleIndex values and respective map scale values
+        [0]: 1,250
+        [1]: 2,500
+        [2]: 5,000
+        [3]: 10,000 Default
+        [4]: 20,000
+        [5]: 40,000
+        [6]: 80,000
+        [7]: 160,000
+        [8]: 320,000
+        [9]: 640,000
+        [10]: 1,280,000
+        [11]: 2,560,000
+        [12]: 5,120,000
+        [13]: 10,240,000
+        [14]: 20,480,000
+        [15]: 40,960,000
+        [16]: 81,920,000
+         */
         private void SetScales()
         {
             var counter = 0;
@@ -30,6 +50,7 @@ namespace RxuiMvpApp.CustomControls
                 if (scale == _startScale)
                 {
                     SliderInput1.Value = counter;
+                    _scaleIndex = counter;
                 }
             }
 
