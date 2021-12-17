@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ReactiveUI.Events.WPF" Version="15.1.1" />
-    <PackageReference Include="ReactiveUI.Fody" Version="17.1.9" />
-    <PackageReference Include="ReactiveUI.WPF" Version="17.1.9" />
+    <PackageReference Include="DynamicData" Version="7.4.3" />
   </ItemGroup>
 
 </Project>
