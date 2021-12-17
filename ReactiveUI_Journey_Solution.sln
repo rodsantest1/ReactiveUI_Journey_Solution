@@ -20,7 +20,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EsriArcGisDemo", "EsriArcGi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ZzzRxuiViewModelViewHostDemo", "ZzzRxuiViewModelViewHostDemo\ZzzRxuiViewModelViewHostDemo.csproj", "{EDD8DDF5-18E1-4306-B45C-E097D5898C7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternationalizationGettingStarted", "InternationalizationGettingStarted\InternationalizationGettingStarted.csproj", "{299CCAE8-1CFC-4E43-96F9-0A5976C07AEF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternationalizationGettingStarted", "InternationalizationGettingStarted\InternationalizationGettingStarted.csproj", "{299CCAE8-1CFC-4E43-96F9-0A5976C07AEF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamicDataExample", "DynamicDataExample\DynamicDataExample.csproj", "{BF654008-9F90-40FC-A0BE-D072F678DFF4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{299CCAE8-1CFC-4E43-96F9-0A5976C07AEF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{299CCAE8-1CFC-4E43-96F9-0A5976C07AEF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{299CCAE8-1CFC-4E43-96F9-0A5976C07AEF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BF654008-9F90-40FC-A0BE-D072F678DFF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BF654008-9F90-40FC-A0BE-D072F678DFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BF654008-9F90-40FC-A0BE-D072F678DFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BF654008-9F90-40FC-A0BE-D072F678DFF4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
