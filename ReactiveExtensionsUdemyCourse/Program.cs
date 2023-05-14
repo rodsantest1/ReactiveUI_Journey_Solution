@@ -19,7 +19,7 @@ namespace ReactiveExtensionsUdemyCourse
         {
             Console.WriteLine("Hello World!");
 
-            //Example0();
+            Example0();
             //Example00();
             //Example000();
             //Example0000(); //Not runnable,
@@ -57,7 +57,7 @@ namespace ReactiveExtensionsUdemyCourse
             //Example24();
             //Example25();
             //Example26();
-            Example27();
+            //Example27();
 
 
             Console.ReadKey();
